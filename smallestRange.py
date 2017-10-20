@@ -7,16 +7,16 @@ import heapq
 import sys
 
 def smallestRange(nums):
-    indicies = [0]*len*(nums)
+    indicies = [0]*len(nums)
     minHeap = []
     minRange = -sys.maxint - 1
     maxRange = sys.maxint 
     max_value = -sys.maxint - 1
-    for ind in range(len(nums)):
+    for i in range(len(nums)):
         heapq.heappush(minHeap, (nums[i][0], i))
-        max_ = max(max_, nums[i][0])
+        max_value = max(max_value, nums[i][0])
     
-    while true:
+    while True:
         min_ = minHeap[0][1]
         min_value = minHeap[0][0]
         if maxRange - minRange > max_value - min_value:
@@ -25,8 +25,8 @@ def smallestRange(nums):
         indicies[min_] += 1
         if (indicies[min_] >= len(nums[min_])):
             break
-        heapq.heapreplace(minHeap, (nums[min_][indicies[min_]], min_)
-        max_value = max(max_value, nums[min_][indicies[min_]], min_)
+        heapq.heapreplace(minHeap, (nums[min_][indicies[min_]], min_))
+        max_value = max(max_value, nums[min_][indicies[min_]])
     
     return (minRange, maxRange)
 
