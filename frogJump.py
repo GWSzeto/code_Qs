@@ -1,9 +1,13 @@
 class Solution(object):
     reached = False
+    visited = None
     def canLeap(self, stones, pos, lastLeap):
         if pos == len(stones) - 1 or self.reached:
             self.reached = True
             return
+        if (pos, lastLeap) in self.visited:
+            return
+        self.visited.add((pos, lastLeap))
         next_stone = pos + 1
         print pos, next_stone
         diff = stones[next_stone] - stones[pos]
@@ -17,6 +21,7 @@ class Solution(object):
             diff = stones[next_stone] - stones[pos]
 
     def canCross(self, stones):
+        self.visited = set()
         if stones[1] - stones[0] != 1:
             return False
         self.canLeap(stones, 1, 1)
