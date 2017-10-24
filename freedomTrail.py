@@ -1,31 +1,20 @@
-import sys
-
 class Solution(object):
-    min_steps = sys.maxint
-    def rotation(self, ring, key, steps, ring_pos, key_pos):
-        if key_pos == len(key):
-            self.min_steps = steps if steps < self.min_steps else self.min_steps
-            return 
-        
-        for number_of_rotations in xrange(len(ring)):
-            clockwise_flag = False
-            counter_flag = False
-            # going clockwise
-            clockwise_pos = (ring_pos + number_of_rotations) % len(ring)
-            if ring[rotate_pos] == key[key_pos]:
-                self.rotation(ring, key, steps + number_of_rotations + 1, clockwise_pos, key_pos + 1)
-
-            # going counter clockwise
-            counter_pos = (ring_pos - number_of_rotations) % len(ring)
-            if ring[rotate_pos] == key[key_pos]:
-                self.rotation(ring, key, steps + number_of_rotations + 1, counter_pos, key_pos + 1)
-
-            if clockwise_flag and counter_flag:
-                break
-
-        return self.min_steps
-    
     def findRotateSteps(self, ring, key):
-        return self.rotation(self, ring, key, 0, 0, 0)
+        def dist(start, end):
+            return min(abs(end - start), len(ring) - abs(end - start))
 
+        char_pos = {}
+        for ind, char in enumerate(ring):
+            if char in char_pos: char_pos[char].append(ind)
+            else: char_pos[char] = [ind]
 
+        starting_pos = {0:0}
+        for char in key:
+            next_pos = {}
+            for target_pos in char_pos[char]:
+                next_pos[target_pos] = float('inf')
+                for start_pos in starting_pos:
+                    next_pos[target_pos] = min(next_pos[target_pos], dist(start_pos, target_pos) + starting_pos[start_pos])
+            starting_pos = next_pos
+
+        return min(starting_pos.values()) + len(key)
