@@ -1,13 +1,14 @@
-class Solution:
-    def minSteps(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        
-        
-        if n > 1 and n % 2 != 0: return n
-        
-        for i in range(n):
-            if n % 2**i == 0 and n % 2**(i + 1) != 0:
-               return "fuck" 
+def minSteps(n):
+    """
+    :type n: int
+    :rtype: int
+    """
+    result = 0
+    diviser = 2
+    while n > 1:
+        while n % diviser == 0:
+            result += diviser
+            n /= diviser
+        diviser += 1
+
+    return result
